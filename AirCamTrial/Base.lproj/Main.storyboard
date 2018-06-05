@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xOH-Xz-Ibm">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Photo Collection-->
+        <scene sceneID="XH0-0G-VE6">
+            <objects>
+                <collectionViewController id="xOH-Xz-Ibm" customClass="PhotoCollection" customModule="AirCamTrial" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" dataMode="prototypes" id="Z0c-MW-P2k">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Ae2-6L-7IG">
+                            <size key="itemSize" width="111" height="102"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCellIdentifier" id="Odj-GV-8bP" customClass="PhotoCell" customModule="AirCamTrial" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="111" height="102"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                    <rect key="frame" x="0.0" y="0.0" width="111" height="102"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gla-sE-bFX">
+                                            <rect key="frame" x="0.0" y="0.0" width="111" height="102"/>
+                                        </imageView>
+                                    </subviews>
+                                </view>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="gla-sE-bFX" secondAttribute="trailing" id="SMO-1e-9Yz"/>
+                                    <constraint firstAttribute="bottom" secondItem="gla-sE-bFX" secondAttribute="bottom" id="ZMt-lE-zea"/>
+                                    <constraint firstItem="gla-sE-bFX" firstAttribute="leading" secondItem="Odj-GV-8bP" secondAttribute="leading" id="iY7-Xi-AON"/>
+                                    <constraint firstItem="gla-sE-bFX" firstAttribute="top" secondItem="Odj-GV-8bP" secondAttribute="top" id="rHY-PG-q5t"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="imageView" destination="gla-sE-bFX" id="vAa-Ea-L5E"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="0YK-8J-Cr6" id="gP5-Vz-3TV"/>
+                            <outlet property="delegate" destination="gAr-Iy-JrD" id="DRI-Rq-MCN"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="W4x-Mh-loM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <customObject id="0YK-8J-Cr6" customClass="CollectionViewDataSource" customModule="AirCamTrial" customModuleProvider="target"/>
+                <customObject id="gAr-Iy-JrD" customClass="CollectionViewDelegate" customModule="AirCamTrial" customModuleProvider="target"/>
+            </objects>
+            <point key="canvasLocation" x="992.79999999999995" y="133.5832083958021"/>
+        </scene>
+    </scenes>
+</document>
