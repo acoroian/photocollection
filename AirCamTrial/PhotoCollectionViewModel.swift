@@ -9,9 +9,14 @@
 import UIKit
 import Alamofire
 
+
 let baseUrl = "https://s3-us-west-2.amazonaws.com/aircam-test/scroll-test/"
 
 class PhotoCollectionViewModel {
+
+    let moreCells = 30
+    let refreshThreshold = 15
+    var isUpdating = false
     
     var photoUrls : [Photo] = []
     var currentPhoto : Photo = Photo(imageNumber: 0, day: 1, cameraType: .sony)
@@ -29,7 +34,8 @@ class PhotoCollectionViewModel {
     }
     
     func shouldLoadMore(currentIndex: Int) {
-        if photoUrls.count - 15 == currentIndex {
+        if photoUrls.count - refreshThreshold == currentIndex && !isUpdating {
+            isUpdating = true
             getNextPhotos(photo: self.currentPhoto)
         }
     }
@@ -49,9 +55,10 @@ class PhotoCollectionViewModel {
                 if(exists) {
                     self.photoUrls.append(self.currentPhoto)
                     self.currentPhoto.imageNumber += 1
-                    if(self.photoUrls.count % 30 > 0)  {
+                    if(self.photoUrls.count % self.moreCells > 0)  {
                         self.getNextPhotos(photo: self.currentPhoto)
                     } else {
+                        self.isUpdating = false
                         self.dataUpdated?()
                     }
                 } else {
@@ -60,18 +67,20 @@ class PhotoCollectionViewModel {
                     if typeIndex < types.count-1 {
                         typeIndex += 1
                         self.currentPhoto.cameraType = types[typeIndex]
-                        if(self.photoUrls.count % 30 > 0)  {
+                        if(self.photoUrls.count % self.moreCells > 0)  {
                             self.getNextPhotos(photo: self.currentPhoto)
                         } else {
+                            self.isUpdating = false
                             self.dataUpdated?()
                         }
                     } else {
                         typeIndex = 0
                         self.currentPhoto.day += 1
                         self.currentPhoto.cameraType = types[0]
-                        if(self.currentPhoto.day <= 31 && self.photoUrls.count % 24 > 0) {
+                        if(self.currentPhoto.day <= 31 && self.photoUrls.count % self.moreCells > 0) {
                             self.getNextPhotos(photo: self.currentPhoto)
                         } else {
+                            self.isUpdating = false
                             self.dataUpdated?()
                         }
                     }

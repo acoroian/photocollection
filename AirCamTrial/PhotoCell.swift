@@ -25,8 +25,8 @@ class PhotoCell: UICollectionViewCell, Configurable {
         guard let photoString = self.model?.photoString() else { return }
         Alamofire.request(photoString).responseData { response in
             if let imageData = response.result.value {
-                let image = UIImage(data: imageData, scale: UIScreen.main.scale)!
-                image.af_inflate()
+                let image = UIImage(data: imageData, scale: UIScreen.main.scale)
+                image?.af_inflate()
                 self.imageView.image = image
             }
         }

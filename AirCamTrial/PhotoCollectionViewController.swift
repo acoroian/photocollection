@@ -11,6 +11,7 @@ import UIKit
 class PhotoCollection: UICollectionViewController {
     let viewModel = PhotoCollectionViewModel()
     var layout: ThreeTabFlowLayout!
+    var itemsCount : Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,11 +21,31 @@ class PhotoCollection: UICollectionViewController {
             self.viewModel.shouldLoadMore(currentIndex: index)
         }
         
+        self.collectionView?.isPagingEnabled = false
+        
         viewModel.dataUpdated = {
             DispatchQueue.main.async {
-                (self.collectionView?.dataSource as! CollectionViewDataSource).data = []
-                (self.collectionView?.dataSource as! CollectionViewDataSource).data.append(contentsOf: self.viewModel.photoUrls)
-                self.collectionView?.reloadData()
+                if(self.itemsCount == self.viewModel.photoUrls.count) { return }
+                
+                (self.collectionView?.dataSource as! CollectionViewDataSource).data = self.viewModel.photoUrls
+                self.itemsCount = self.viewModel.photoUrls.count
+                
+                if(self.viewModel.photoUrls.count == self.viewModel.moreCells) {
+                    self.collectionView?.reloadData()
+                } else {
+                    
+                    var indexPaths : [IndexPath] = []
+                    for i in self.viewModel.photoUrls.count-self.viewModel.moreCells...self.viewModel.photoUrls.count-1 {
+                        indexPaths.append(IndexPath(row: i, section: 0))
+                    }
+                    
+                    
+                    
+                    self.collectionView?.performBatchUpdates({
+                        self.collectionView?.insertItems(at:indexPaths)
+                    }, completion: nil)
+                    
+                }
             }
         }
         
