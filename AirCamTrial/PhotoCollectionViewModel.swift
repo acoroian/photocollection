@@ -42,7 +42,11 @@ class PhotoCollectionViewModel {
     }
     
     // Shouldn't need to touch anything above here
-
+    func updateView() {
+        self.isUpdating = false
+        self.dataUpdated?(self.totalCells)
+        self.totalCells = 0
+    }
     
     // Given that we're on one photo, get the next 5 photos, using photoExists to check if the photo is valid
     func getNextPhotos(photo: Photo) {
@@ -60,9 +64,7 @@ class PhotoCollectionViewModel {
                     if(self.totalCells < self.moreCells)  {
                         self.getNextPhotos(photo: self.currentPhoto)
                     } else {
-                        self.isUpdating = false
-                        self.dataUpdated?(self.totalCells)
-                        self.totalCells = 0
+                        self.updateView()
                     }
                 } else {
                     self.currentPhoto.imageNumber  = 0
@@ -73,9 +75,7 @@ class PhotoCollectionViewModel {
                         if(self.totalCells < self.moreCells)  {
                             self.getNextPhotos(photo: self.currentPhoto)
                         } else {
-                            self.isUpdating = false
-                            self.dataUpdated?(self.totalCells)
-                            self.totalCells = 0
+                            self.updateView()
                         }
                     } else {
                         typeIndex = 0
@@ -84,9 +84,7 @@ class PhotoCollectionViewModel {
                         if(self.currentPhoto.day <= 31 && self.totalCells < self.moreCells) {
                             self.getNextPhotos(photo: self.currentPhoto)
                         } else {
-                            self.isUpdating = false
-                            self.dataUpdated?(self.totalCells)
-                            self.totalCells = 0
+                            self.updateView()
                         }
                     }
                 }
