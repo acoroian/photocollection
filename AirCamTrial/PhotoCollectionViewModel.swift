@@ -22,7 +22,7 @@ class PhotoCollectionViewModel {
     var photoUrls : [Photo] = []
     var currentPhoto : Photo = Photo(imageNumber: 0, day: 1, cameraType: .sony)
     
-    var dataUpdated : (() -> Void)?
+    var dataUpdated : ((_ cells: Int) -> Void)?
     
     init() {
         self.refreshData()
@@ -61,8 +61,8 @@ class PhotoCollectionViewModel {
                         self.getNextPhotos(photo: self.currentPhoto)
                     } else {
                         self.isUpdating = false
+                        self.dataUpdated?(self.totalCells)
                         self.totalCells = 0
-                        self.dataUpdated?()
                     }
                 } else {
                     self.currentPhoto.imageNumber  = 0
@@ -74,8 +74,8 @@ class PhotoCollectionViewModel {
                             self.getNextPhotos(photo: self.currentPhoto)
                         } else {
                             self.isUpdating = false
+                            self.dataUpdated?(self.totalCells)
                             self.totalCells = 0
-                            self.dataUpdated?()
                         }
                     } else {
                         typeIndex = 0
@@ -85,8 +85,8 @@ class PhotoCollectionViewModel {
                             self.getNextPhotos(photo: self.currentPhoto)
                         } else {
                             self.isUpdating = false
+                            self.dataUpdated?(self.totalCells)
                             self.totalCells = 0
-                            self.dataUpdated?()
                         }
                     }
                 }

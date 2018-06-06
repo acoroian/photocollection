@@ -23,7 +23,7 @@ class PhotoCollection: UICollectionViewController {
         
         self.collectionView?.isPagingEnabled = false
         
-        viewModel.dataUpdated = {
+        viewModel.dataUpdated = { totalCells in
             DispatchQueue.main.async {
                 if(self.itemsCount == self.viewModel.photoUrls.count) { return }
                 
@@ -35,7 +35,7 @@ class PhotoCollection: UICollectionViewController {
                 } else {
                     
                     var indexPaths : [IndexPath] = []
-                    for i in self.viewModel.photoUrls.count-self.viewModel.moreCells...self.viewModel.photoUrls.count-1 {
+                    for i in self.viewModel.photoUrls.count-totalCells...self.viewModel.photoUrls.count-1 {
                         indexPaths.append(IndexPath(row: i, section: 0))
                     }
                     

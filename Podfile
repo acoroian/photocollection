@@ -7,7 +7,7 @@ target 'AirCamTrial' do
 
   pod 'Alamofire', '~> 4.7'
   pod 'AlamofireImage'
-  
+
   target 'AirCamTrialTests' do
     inherit! :search_paths
     # Pods for testing
