@@ -14,9 +14,10 @@ let baseUrl = "https://s3-us-west-2.amazonaws.com/aircam-test/scroll-test/"
 
 class PhotoCollectionViewModel {
 
-    let moreCells = 30
-    let refreshThreshold = 15
+    let moreCells = 45
+    let refreshThreshold = 30
     var isUpdating = false
+    var totalCells = 0
     
     var photoUrls : [Photo] = []
     var currentPhoto : Photo = Photo(imageNumber: 0, day: 1, cameraType: .sony)
@@ -55,10 +56,12 @@ class PhotoCollectionViewModel {
                 if(exists) {
                     self.photoUrls.append(self.currentPhoto)
                     self.currentPhoto.imageNumber += 1
-                    if(self.photoUrls.count % self.moreCells > 0)  {
+                    self.totalCells += 1
+                    if(self.totalCells < self.moreCells)  {
                         self.getNextPhotos(photo: self.currentPhoto)
                     } else {
                         self.isUpdating = false
+                        self.totalCells = 0
                         self.dataUpdated?()
                     }
                 } else {
@@ -67,20 +70,22 @@ class PhotoCollectionViewModel {
                     if typeIndex < types.count-1 {
                         typeIndex += 1
                         self.currentPhoto.cameraType = types[typeIndex]
-                        if(self.photoUrls.count % self.moreCells > 0)  {
+                        if(self.totalCells < self.moreCells)  {
                             self.getNextPhotos(photo: self.currentPhoto)
                         } else {
                             self.isUpdating = false
+                            self.totalCells = 0
                             self.dataUpdated?()
                         }
                     } else {
                         typeIndex = 0
                         self.currentPhoto.day += 1
                         self.currentPhoto.cameraType = types[0]
-                        if(self.currentPhoto.day <= 31 && self.photoUrls.count % self.moreCells > 0) {
+                        if(self.currentPhoto.day <= 31 && self.totalCells < self.moreCells) {
                             self.getNextPhotos(photo: self.currentPhoto)
                         } else {
                             self.isUpdating = false
+                            self.totalCells = 0
                             self.dataUpdated?()
                         }
                     }
